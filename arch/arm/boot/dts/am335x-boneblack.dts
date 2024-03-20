@@ -135,6 +135,23 @@
 			AM33XX_PADCONF(AM335X_PIN_GPMC_AD2 , PIN_OUTPUT_PULLUP,   MUX_MODE7) /* BT dev wake */
 		>;
 	};
+
+	uart3_pins: pinmux_uart3_pins {
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_MII1_RXD3, PIN_INPUT_PULLUP, MUX_MODE1)	/* (L17) gmii1_rxd3.uart3_rxd */
+			AM33XX_PADCONF(AM335X_PIN_MII1_RXD2, PIN_OUTPUT_PULLDOWN, MUX_MODE1)	/* (L16) gmii1_rxd2.uart3_txd */
+			AM33XX_PADCONF(AM335X_PIN_MDIO, PIN_INPUT, MUX_MODE3)		/* (M17) mdio_data.uart3_ctsn */
+			AM33XX_PADCONF(AM335X_PIN_MDC, PIN_OUTPUT_PULLDOWN, MUX_MODE3)	/* (M18) mdio_clk.uart3_rtsn */
+		>;
+	};
+
+};
+
+
+&uart3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart3_pins>;
+	status = "okay";
 };
 
 
@@ -160,6 +177,12 @@
 	status = "okay";
 	pinctrl-names = "default";
 	pinctrl-0 = <&bb_spi1_pins>;
+	/*
+	 * Select the D0 pin as output and D1 as
+	 * input. The default is D0 as input and
+	 * D1 as output.
+	 */
+	ti,pindir-d0-out-d1-in;
 
 	channel@0{
 		status = "disabled";
